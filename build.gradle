@@ -1,0 +1,62 @@
+buildscript {
+    ext.kotlin_version = '1.2.70'
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+    }
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'idea'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'application'
+
+
+group 'com.martmists.lumacrash'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        url = "https://dl.bintray.com/kotlin/ktor"
+    }
+    maven {
+        url = "https://dl.bintray.com/kotlin/exposed"
+    }
+
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.70"
+    compile "io.ktor:ktor-server-netty:0.9.5"
+
+    runtime "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5"
+    runtime 'org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:0.22.5'
+
+    compile 'org.slf4j:slf4j-simple:1.7.9'
+}
+
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
+}
+
+shadowJar {
+    archiveName = "LumaCrash.jar"
+    mainClassName = "com.martmists.lumacrash.MainKt"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
